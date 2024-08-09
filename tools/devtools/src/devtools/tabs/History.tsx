@@ -108,20 +108,25 @@ export function History({
 
     const marks = {};
     for (const [index, event] of events.entries()) {
-      const source = event.event[0].source;
-      const transactionEventType = event.transactionEventType;
+      const firstEvent = event.event[0];
+      if ('source' in firstEvent) {
+        const source = firstEvent.source;
+        const transactionEventType = event.transactionEventType;
 
-      marks[index] = (
-        <span
-          className={`mark-history mark-${source} mark-${transactionEventType}`}
-        >
-          {transactionEventType === TransactionEventType.Presence ? (
-            <CursorIcon />
-          ) : (
-            <DocumentIcon />
-          )}
-        </span>
-      );
+        marks[index] = (
+          <span
+            className={`mark-history mark-${source} mark-${transactionEventType}`}
+          >
+            {transactionEventType === TransactionEventType.Presence ? (
+              <CursorIcon />
+            ) : (
+              <DocumentIcon />
+            )}
+          </span>
+        );
+      } else {
+        console.error('The event does not have a source property', firstEvent);
+      }
     }
     setSliderMarks(marks);
   }, [openHistory, events]);
