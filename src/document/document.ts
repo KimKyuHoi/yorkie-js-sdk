@@ -206,6 +206,7 @@ export type TransactionEvent<P extends Indexable = Indexable> = Array<
  */
 export interface BaseDocEvent {
   type: DocEventType;
+  source: OpSource;
 }
 
 /**
